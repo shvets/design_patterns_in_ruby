@@ -1,4 +1,4 @@
-# flyweight.rb
+# flyweight.bsh
 
 # Uses sharing to support large numbers of fine grained objects efficiently.
 
@@ -40,7 +40,7 @@ class ItemCache
   end
 end
 
-# 4. test
+//4. test
 
 cache = ItemCache.new
 

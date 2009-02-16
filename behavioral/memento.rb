@@ -1,4 +1,4 @@
-# memento.rb
+# memento.bsh
 
 # Without violating encapsulation, capture and externalize an object's internal state
 # so that the object can be restored to this state later.
@@ -18,7 +18,7 @@ class Memento
 end
 
 class Originator
-  def initialize()
+  def initialize
     @state = nil
   end
 
@@ -26,8 +26,8 @@ class Originator
     @state = state
   end
 
-  def print_state
-    puts @state
+  def state_to_s
+    @state.to_s
   end
 
   def create_memento
@@ -35,9 +35,7 @@ class Originator
   end
 
   def restore_memento(m)
-    if (m.kind_of? Memento)
-      m.restore_memento
-    end
+    m.restore_memento
   end
 end
 
@@ -53,7 +51,7 @@ class Caretaker
     @saved_states << memento
   end
  
-  def get_memento(index)
+  def [](index)
     @saved_states[index]
   end
 end
@@ -61,33 +59,25 @@ end
 # 3. test
 
 caretaker = Caretaker.new
-
 originator = Originator.new
 
-originator.state= "State1"
-print "step1:"
-originator.print_state
+originator.state = "State1"
+puts "step1: " + originator.state_to_s
 
 originator.state = "State2"
-print("step2: ")
-originator.print_state
+puts "step2: " + originator.state_to_s
 
-caretaker.add_memento( originator.create_memento )
-print("step3: ")
-originator.print_state
+caretaker.add_memento(originator.create_memento())
+puts "step3: " + originator.state_to_s
 
 originator.state = "State3"
-print("step4: ")
-originator.print_state
+puts "step4: "+ originator.state_to_s
 
-caretaker.add_memento( originator.create_memento )
-print("step5: ")
-originator.print_state
+caretaker.add_memento(originator.create_memento())
+puts "step5: " + originator.state_to_s
 
 originator.state = "State4"
-print("step6: ")
-originator.print_state
+puts "step6: " + originator.state_to_s
 
-originator.restore_memento( caretaker.get_memento(1) )
-print("step7: ")
-originator.print_state
+originator.restore_memento(caretaker[1])
+puts "step7: " + originator.state_to_s

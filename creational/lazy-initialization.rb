@@ -11,8 +11,8 @@ class Item
 end
 
 class ItemProxy < Item
-  def initialize(&creation_block)
-    @creation_block = creation_block
+  def self.creational_block(&creation_block)
+    @@creation_block = creation_block
   end
 
   def operation
@@ -26,12 +26,14 @@ class ItemProxy < Item
       puts "Using existing instance"
     end
 
-    @subject || (@subject = Item.new)
+    @subject || (@subject = @@creation_block.call)
   end
 end
 
 
 # test
+
+ItemProxy.creational_block { Item.new }
 
 item1 = ItemProxy.subject
 
@@ -39,9 +41,6 @@ item2 = ItemProxy.subject
 
 item3 = ItemProxy.subject
 
-item4 = ItemProxy.new { Item.new }.class.subject
-
 item1.operation
 item2.operation
 item3.operation
-item4.operation

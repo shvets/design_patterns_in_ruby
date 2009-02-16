@@ -34,6 +34,6 @@ original_product = Product.new
 
 cloned_product = original_product.make_prototype
 
-puts "originalProduct: " + original_product.to_s
-puts "clonedProduct : " + cloned_product.to_s
+puts "original product: " + original_product.to_s
+puts "cloned product : " + cloned_product.to_s
 

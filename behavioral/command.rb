@@ -49,10 +49,10 @@ end
 
 test1 = Test.new(MyCommand1.new)
 
-test1.operation()
+test1.operation
 
-test2 = Test.new() {
+test2 = Test.new {
   puts "hello!"
 }
 
-test2.operation()
+test2.operation

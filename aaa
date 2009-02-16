@@ -1,0 +1,49 @@
+Previously I wrote a post about <a href="http://scriptlandia.blogspot.com/2008/01/design-patterns-in-beanshell-ready-to.html">Design Patterns in Beanshell</a>. Now I have converted them in ruby scripts. Some of DP implementations in Ruby does not make sense because of hihgly dynamic nature of this language.
+
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/creational">Creational Patterns</a>
+
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/creational/abstract-factory.rb">Abstract Factory</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/creational/builder.rb">Builder</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/creational/factory-method.rb">Factory Method</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/creational/prototype.rb">Prototype</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/creational/singleton.rb">Singleton</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/creational/singleton-corrected.rb">Singleton (corrected)</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/creational/lazy-initialization.rb">Lazy Initialization</a>
+
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/structural">Structural Patterns</a>
+
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/structural/adapter.rb">Adapter</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/structural/bridge.rb">Bridge</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/structural/composite.rb">Composite</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/structural/decorator.rb">Decorator</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/structural/facade.rb">Facade</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/structural/flyweight.rb">Flyweight</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/structural/proxy.rb">Proxy</a>
+
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/behavioral">Behavioral Patterns</a>
+
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/behavioral/chain-of-responsibility.rb">Chain of Responsibility</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/behavioral/command.rb">Command</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/behavioral/domain_function.rb">Domain Function</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/behavioral/interpreter.rb">Interpreter</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/behavioral/iterator.rb">Iterator</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/behavioral/mediator.rb">Mediator</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/behavioral/memento.rb">Memento</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/behavioral/observer.rb">Observer</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/behavioral/observer2.rb">Observer with Observer library</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/behavioral/state.rb">State</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/behavioral/strategy.rb">Strategy</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/behavioral/template-method.rb">Template Method</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/behavioral/template-method-corrected.rb">Template Method (corrected)</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/behavioral/templatevisitor.rb">Visitor</a>
+
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/enterprise">Enterprise Patterns</a>
+
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/enterprise/mvc.rb">MVC</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/enterprise/data-access-object.rb">Data Access Object</a>
+<a href="http://github.com/shvets/design_patterns_in_ruby/tree/master/enterprise/map-reduce.rb">Map-Reduce</a>
+
+My main sources:
+
+1. <a href="http://scriptlandia.blogspot.com/2008/01/design-patterns-in-beanshell-ready-to.html">Design Patterns in Beanshell</a>
+2. <a href="http://designpatternsinruby.com/">Design Patterns in Ruby : web site and the book</a>

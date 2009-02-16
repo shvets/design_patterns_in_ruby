@@ -1,7 +1,9 @@
-# states.rb
+# states.bsh
 
 # Allow an object to alter it's behavior when it's internal state changes.
 # The object will appear to change it's class.
+
+# in ruby you can achieve same goal with metaprogramming
 
 # 1. state type and it's implementations
 
@@ -22,11 +24,10 @@ class MyState2 < State
   end
 end
 
-
 # 2. context's type and it's implementation
 
-class Context 
-  def state=(state)
+class Context
+  def set_state(state)
   end
 
   def request
@@ -34,17 +35,14 @@ class Context
 end
 
 class MyContext < Context
-
-  def state=(state) 
+  def state=(state)
     @state = state
   end
 
-  def request 
+  def request
     @state.handle
   end
 end
-  
-
 
 # 3. test
 

@@ -30,7 +30,7 @@ end
 
 # 3. test
 
-context = StrategyContext.new;
+context = StrategyContext.new
 
 strategy1 = MyStrategy1.new
 strategy2 = MyStrategy2.new

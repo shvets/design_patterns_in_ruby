@@ -60,6 +60,6 @@ end
 
 tester = SingletonTest.new
 
-tester.test_singleton
+tester.test_singleton;
 
 

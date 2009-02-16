@@ -1,4 +1,4 @@
-# composite.rb
+# composite.bsh
 
 # Compose objects into tree structures to represents part-whole hierarchies.
 # Let's clientstreat individual objects and compositions of objects uniformly.

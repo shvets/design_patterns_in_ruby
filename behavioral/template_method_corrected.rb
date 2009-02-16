@@ -1,4 +1,4 @@
-# template-method-corrected.rb
+# template-method-corrected.bsh
 
 # Use Strategy pattern instead.
 

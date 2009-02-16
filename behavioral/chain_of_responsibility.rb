@@ -1,4 +1,4 @@
-# chain-of-responsibility.rb
+# chain-of-responsibility.bsh
 
 # Avoid coulpling the sender of a request to it's receiver by giving more than
 # one object a chance to handle the request. Chain the receiving object and pass
@@ -10,7 +10,7 @@ class Handler
   def handle
   end
 
-  def set_next_handler(handler)
+  def next_handler=(handler)
   end
 end
 
@@ -25,7 +25,7 @@ class MyHandler < Handler
     puts "Handling by " + @name + "."
 
     if(@next_handler != nil)
-      @next_handler.handle;
+      @next_handler.handle
     end
   end
 
