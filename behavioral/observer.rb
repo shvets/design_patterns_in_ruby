@@ -7,11 +7,11 @@
 
 class Observer
   def initialize(name) 
-    @name = name;
+    @name = name
   end
 
-  def update 
-    puts "updated " + @name
+  def update(value)
+    puts "updated " + @name + ". New value: " + value
   end
 end
 
@@ -30,8 +30,13 @@ module Observable
     @observers.delete(observer)
   end
 
-  def notify_observers() 
-    @observers.clone.each { |observer| observer.update }
+  protected
+
+  def notify_observers(value) 
+    @observers.clone.each do |observer| 
+      observer.update(value) if observer.kind_of? Observer
+      observer.call(value)  if observer.kind_of? Proc
+    end
   end
 end
 
@@ -39,22 +44,30 @@ end
 
 class Tester
   include Observable
+
+  def property= property
+    @property = property
+
+    notify_observers(property)
+  end
 end
 
 observer1 = Observer.new("n1")
 observer2 = Observer.new("n2")
 observer3 = Observer.new("n3")
+observer4 = lambda { |value| puts "updated from lambda (update is :#{value})" }
 
 tester = Tester.new
 
 tester << observer1
 tester << observer2
 tester << observer3
+tester << observer4
 
-tester.notify_observers
+tester.property = 'red'
 
 puts '----------'
 
 tester >> observer3
 
-tester.notify_observers
+tester.property = 'green'

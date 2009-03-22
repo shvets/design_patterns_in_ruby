@@ -33,9 +33,9 @@ class ItemCache
 
   def item(type) 
     if(type == 1) 
-      return item1;
+      return item1
     elsif(type == 2) 
-      return item2;
+      return item2
     end
   end
 end

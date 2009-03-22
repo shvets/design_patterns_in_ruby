@@ -43,7 +43,7 @@ class MyCompoundVisitable < Visitable
     @visitables3 = [
       MyVisitable3.new, MyVisitable3.new, MyVisitable3.new
     ]
-  end;
+  end
 
   def accept(&visitor_code)
     visitor_code.call(self)

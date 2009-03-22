@@ -22,7 +22,7 @@ end
 
 class NamesInterpreter
   def initialize(context)
-    @context = context;
+    @context = context
   end
    
   # expression syntax:
@@ -60,6 +60,6 @@ end
 
 # test
 
-interpreter = NamesInterpreter.new(NamesInterpreterContext.new);
+interpreter = NamesInterpreter.new(NamesInterpreterContext.new)
 
 puts "interpreting show names: " + interpreter.interpret("show names")
