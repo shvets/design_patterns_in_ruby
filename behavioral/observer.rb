@@ -30,6 +30,27 @@ module Observable
     @observers.delete(observer)
   end
 
+  def self.included(base)
+    base.extend(ClassMethods)
+  end
+
+  module ClassMethods
+    def act_as_observable *list
+      list.each do |observable|
+        method_name = "#{observable.to_s}="
+        no_callback_method_name = "no_callback_#{observable.to_s}="
+
+        alias_method no_callback_method_name, method_name 
+ 
+        define_method method_name do |value|
+          send no_callback_method_name, value
+
+          notify_observers(value)
+        end
+      end
+    end
+  end
+
   protected
 
   def notify_observers(value) 
@@ -45,11 +66,8 @@ end
 class Tester
   include Observable
 
-  def property= property
-    @property = property
-
-    notify_observers(property)
-  end
+  attr_accessor :property
+  act_as_observable :property
 end
 
 observer1 = Observer.new("n1")
