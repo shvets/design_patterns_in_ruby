@@ -1,12 +1,13 @@
-# composite.bsh
+# composite.rb
 
 # Compose objects into tree structures to represents part-whole hierarchies.
-# Let's clientstreat individual objects and compositions of objects uniformly.
+# Lets clients treat individual objects and compositions of objects uniformly.
 
-# 1. basic behavior in form of trait-module
+# 1. basic elements
 
 module Component
   def operation
+     puts "component operation"
   end
 end
 
@@ -52,16 +53,12 @@ class Leaf
     @name = name
   end
 
-  def operation
-    puts "leaf operation"
-  end
-
   def to_s
-    @name
+    "leaf[name: #{@name}]"
   end                    
 end
 
-class Container
+class Tree
   include Component
   include Composite
 
@@ -71,41 +68,41 @@ class Container
   end
 
   def to_s
-    "[ name: " + @name + "; children: " + @children.join(', ') + "]"
+    "tree[name: #{@name}; children: #{@children.join(', ')}]"
   end                    
 end
 
 # 3. test
 
-container1 = Container.new("c1")
-container2 = Container.new("c2")
+tree1 = Tree.new("t1")
+tree2 = Tree.new("t2")
 
 leaf1 = Leaf.new("l1")
 leaf2 = Leaf.new("l2")
 leaf3 = Leaf.new("l3")
 
-container1 << container2
-container1 << leaf1
-container1 << leaf2
+tree1 << tree2
+tree1 << leaf1
+tree1 << leaf2
 
-container2 << leaf3
+tree2 << leaf3
 
-puts "Hierarchy: \n" + container1.to_s
+puts "Hierarchy: \n" + tree1.to_s
 puts "-------"
 
-puts "Second element: " + container1[1].to_s
+puts "Second element: " + tree1[1].to_s
 puts "-------"
 
-container1[1] = Leaf.new("l4")
-puts "Set second element to: " + container1[1].to_s
+tree1[1] = Leaf.new("l4")
+puts "Set second element to: " + tree1[1].to_s
 puts "-------"
 
-container1 >> leaf1
+tree1 >> leaf1
 
-puts "Hierarchy: \n" + container1.to_s
+puts "Hierarchy: \n" + tree1.to_s
 puts "-------"
 
 puts "Operation on composite: \n"
 
-container1.operation
+tree1.operation
 puts "-------"
