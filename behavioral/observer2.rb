@@ -1,11 +1,9 @@
 # observer2.rb
 
-# Define a one-to-many dependency between objects so that when one object
-# changes state, all it's dependents are notified and updated automatically
+# Slight modification of previous example with metaprogramming to wrap methods
+# that needs to be observed.
 
-require 'observer'
-
-# 1. observer
+# 1. observer 
 
 class Observer
   def initialize(name) 
@@ -17,44 +15,84 @@ class Observer
   end
 end
 
-# 2. Observable is imported from 'observer' module
+# 2. Observable, serves as a container for observers and takes care of notifying them
 
-# 3. test
+module ObservableClassMethods
+  def act_as_observable *list
+    list.each do |observable|
+      method_name = "#{observable.to_s}="
+      no_callback_method_name = "no_callback_#{observable.to_s}="
 
-class Tester
-  include Observable
+      alias_method no_callback_method_name, method_name 
 
-  def property= property
-    @property = property
-  
-    changed
-    notify_observers(property)
+      define_method method_name do |value|
+        send no_callback_method_name, value
+
+        notify_observers(value)
+      end
+    end
   end
 end
+
+module Observable 
+  def self.included(base)
+    base.extend(ObservableClassMethods)
+  end
+  
+  def initialize
+    @observers = []
+  end
+
+  def <<(observer) 
+    @observers << observer
+  end
+  
+  def >>(observer) 
+    @observers.delete(observer)
+  end
+
+  protected
+
+  def notify_observers(value) 
+    @observers.clone.each do |observer| 
+      observer.update(value) if observer.kind_of? Observer
+      observer.call(value)  if observer.kind_of? Proc
+    end
+  end
+end
+
+# 3. Implementation of the observer
+class MyObservable 
+  include Observable
+  
+  attr_accessor :my_property
+  
+  # def my_property=(my_property)
+  #   @my_property = my_property
+  #   
+  #   notify_observers(my_property)
+  # end
+  act_as_observable :my_property
+end
+
+# 4. test
 
 observer1 = Observer.new("n1")
 observer2 = Observer.new("n2")
 observer3 = Observer.new("n3")
+observer4 = lambda { |value| puts "updated from lambda (update is :#{value})" }
 
-observer4 = Proc.new {}
+my_observable = MyObservable.new
 
-observer4.instance_eval do
-  def update(value)
-    puts "updated from lambda (update is :#{value})"
-  end
-end
+my_observable << observer1
+my_observable << observer2
+my_observable << observer3
+my_observable << observer4
 
-tester = Tester.new
+my_observable.my_property = 'red'
 
-tester.add_observer observer1
-tester.add_observer observer2
-tester.add_observer observer3
-tester.add_observer observer4
+puts 'Deleting observer 3 ----------'
 
-tester.property = 'red'
+my_observable >> observer3
 
-puts '----------'
-
-tester.delete_observer observer3
-
-tester.property = 'green'
+my_observable.my_property = 'green'
