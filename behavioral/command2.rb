@@ -17,8 +17,8 @@ end
 
 # 2. test
 
-command_user = CommandUser.new {
+command_user = CommandUser.new do
   puts "command1"
-}
+end
 
 command_user.operation

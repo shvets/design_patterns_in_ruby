@@ -22,7 +22,7 @@ class Client
   end
 end
 
-# 2. class that creates conflict (adaptee): we cannot pass type in client's process() method.
+# 2. class that creates conflict (adaptee): we cannot pass it in client's process() method.
 
 class OtherItem # adaptee
   def other_operation
@@ -32,7 +32,7 @@ end
 
 # 3. adaptation
 
-class ClientItemAdapter < ClientItem # adapter
+class OtherItemAdapter < ClientItem # adapter
   def initialize
     @other_item = OtherItem.new
   end
@@ -51,15 +51,34 @@ client.process(MyClientItem.new) # OK
 
 # client.process(OtherItem.new) # OtherItem does not conform CientItem protocol
 
-client.process(ClientItemAdapter.new) # OtherItem is adapted to CientItem protocol through adapter
+client.process(OtherItemAdapter.new) # OtherItem is adapted to CientItem protocol through adapter
+
+# here we adapt incompatible interface "on the fly" using ruby ability to dynamically 
+# add missing method to the class.
 
 other_item = OtherItem.new
 
 class << other_item
   def some_operation
-    puts "some operation for this instance"
+    puts "some operation for this instance (v1)"
   end
 end
 
-client.process(other_item)  # OtherItem is adapted to CientItem protocol with the help of odifying instance behavior
+client.process(other_item)
 
+other_item2 = OtherItem.new
+
+def other_item2.some_operation
+  puts "some operation for this instance (v2)"
+end
+
+client.process(other_item2)
+
+# or adding this method directly to the class by openning it:
+class OtherItem
+  def some_operation
+    puts "some operation for this instance (v3)"
+  end
+end
+
+client.process(OtherItem.new)

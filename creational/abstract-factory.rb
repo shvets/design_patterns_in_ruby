@@ -3,8 +3,8 @@
 # Provides an interface for creationg families of related or dependent objects without specifying
 # their concrete class.
 #
-# Provides one level of interface higher than the factory pattern. It is used to return one
-# of several factories.
+# Provides one level of interface higher than the Factory Method pattern. 
+# It is used to return one of the several factories.
 
 # 1. common interface for type and it's specializations
 
