@@ -6,7 +6,7 @@
 
 # This implementation uses object level.
   
-# 1. Defines DSL elements: leaf, branch, root, trunk, tree.
+# 1. Defines DSL elements: tree, trunk, branch, root, leaf.
 #    If one element appears inside another, use collection and don't forget to eval 
 #    incoming block for the parent.
 
