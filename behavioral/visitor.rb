@@ -9,7 +9,7 @@
 
 # 1. type and visitor interfaces
 
-class Visitable
+module Visitable
   def accept(&visitor_code)
     visitor_code.call(self)
   end
@@ -27,15 +27,24 @@ end
 
 # basic parts
 
-class MyVisitable1 < Visitable; end
+class MyVisitable1 
+  include Visitable
+end
 
-class MyVisitable2 < Visitable; end
+class MyVisitable2
+  include Visitable
+end
+    
+class MyVisitable3
+  include Visitable
+end
 
-class MyVisitable3 < Visitable; end
 
 # compound
 
-class MyCompoundVisitable < Visitable
+class MyCompoundVisitable
+  include Visitable
+    
   def initialize
     @visitable1 = MyVisitable1.new
     @visitable2 = MyVisitable2.new
@@ -63,29 +72,17 @@ end
 
 visitable = MyCompoundVisitable.new
 
-# creating visitors dynamically
+# creating visitor dynamically
 
 visitable.accept do |visitable|
   if(visitable.kind_of? MyVisitable1)
-    puts "visitor1: visiting my visitable 1"
+    puts "visitor: visiting my visitable 1"
   elsif(visitable.kind_of? MyVisitable2)
-    puts "visitor1: visiting my visible 2"
+    puts "visitor: visiting my visible 2"
   elsif(visitable.kind_of? MyVisitable3)
-    puts "visitor1: visiting my visitable 3"
+    puts "visitor: visiting my visitable 3"
   elsif(visitable.kind_of? MyCompoundVisitable)
-    puts "visitor1: visiting my compound visitable"
-  end
-end
-
-visitable.accept do |visitable|
-  if(visitable.kind_of? MyVisitable1)
-    puts "visitor2: visiting my visitable 1"
-  elsif(visitable.kind_of? MyVisitable2)
-    puts "visitor2: visiting my visible 2"
-  elsif(visitable.kind_of? MyVisitable3)
-    puts "visitor2: visiting my visitable 3"
-  elsif(visitable.kind_of? MyCompoundVisitable)
-    puts "visitor2: visiting my compound visitable"
+    puts "visitor: visiting my compound visitable"
   end
 end
 
