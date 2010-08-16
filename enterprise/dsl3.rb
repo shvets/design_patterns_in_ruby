@@ -25,8 +25,14 @@ end
 
 module Visitable
   def accept(level=1, &visitor_code)
+    # p @before_code.call unless @before_code.nil?
+    
     visitor_code.call(level, self)
   end
+  
+  # def before &code
+  #   @before_code = code
+  # end
 end
 
 module HasName
@@ -53,11 +59,15 @@ class Trunk < TreeElement
 end
 
 class Tree < TreeElement
-  attr_accessor :type
 
+  def type
+    @type
+  end
+  
   def type(type)
     @type = type
   end
+  
 end
 
 
@@ -152,34 +162,43 @@ class DSLBuilder
   end
   
   def assign_visitors language
-    p @records
-    @records.each do |record|
-      record.each do |key, value|
-        if key == :root
-          assign_visitor_to(value) 
-        elsif key == :child
-          assign_visitor_to(value)
+    # p @records
+    # @records.each do |record|
+    #   record.each do |key, value|
+    #     if key == :root
+    #       assign_visitor_to(value) 
+    #     elsif key == :child
+    #       assign_visitor_to(value)
+    # 
+    #       parent_class = constantize(record[:parent])
+    #  p parent_class
+    #  p key
+    #  p value
+    #  
+    #       parent_class.class_eval do
+    #         alias original_accept accept
+    #         
+    #         def accept(level=1, &visitor_code)
+    #           p visitor_code.class
+    #           original_accept &visitor_code
+    # 
+    #           # takes care of components
+    #           instance_variable_get("@trunk".to_sym).accept(level+1, &visitor_code)
+    #         
+    #         end
+    #       end         
+    #     elsif key == :children
+    #       assign_visitor_to(value) 
+    #     end    
+    #   end
+    # end
     
-          parent_class = constantize(record[:parent])
- 
-          parent_class.class_eval do
-            alias original_accept accept
-          
-            def accept(level=1, &visitor_code)
-              original_accept &visitor_code
-
-              # takes care of components
-              instance_variable_get("@trunk".to_sym).accept(level+1, &visitor_code)
-            
-            end
-          end         
-        elsif key == :children
-          assign_visitor_to(value) 
-        end    
-      end
-    end
-    
-    
+   Leaf.send :include, Visitable
+   Branch.send :include, Visitable
+   Root.send :include, Visitable
+   Trunk.send :include, Visitable
+   Tree.send :include, Visitable
+       
    Branch.class_eval do
      alias original_accept accept
    
@@ -210,16 +229,16 @@ class DSLBuilder
       end
     end
 
-    # Tree.class_eval do
-    #   alias original_accept accept
-    # 
-    #   def accept(level=1, &visitor_code)
-    #     original_accept &visitor_code
-    # 
-    #     # takes care of components
-    #     @trunk.accept(level+1, &visitor_code)
-    #   end
-    # end
+    Tree.class_eval do
+      alias original_accept accept
+    
+      def accept(level=1, &visitor_code)
+        original_accept &visitor_code
+    
+        # takes care of components
+        @trunk.accept(level+1, &visitor_code)
+      end
+    end
     
     
   end

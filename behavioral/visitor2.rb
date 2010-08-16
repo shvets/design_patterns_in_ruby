@@ -1,13 +1,8 @@
-# visitor.bsh
+# visitor2.rb
 
-# Represents an operation to be performed on the elements of an object structure.
-# Lets you define a new operation without changing the classes of the elements on which
-# it operates.
+# Instead of using separate visitor class this example uses blocks of code.
 
-# with dynamic nature of ruby you don't really need this pattern: use
-# open classes feature and use intrenals as you want
-
-# 1. type and visitor interfaces
+# 1. type interface
 
 module Visitable
   def accept(&visitor_code)
@@ -15,7 +10,7 @@ module Visitable
   end
 end
 
-# we don't need visitor here: code fragment instead
+# we don't need visitor here: use code fragment instead
 
 #class Visitor
 #  def visit(visitable)
@@ -23,7 +18,7 @@ end
 #end
 
 
-# 2. type implementation woth visitable behavior
+# 2. type implementation with visitable behavior
 
 # basic parts
 
@@ -74,7 +69,7 @@ visitable = MyCompoundVisitable.new
 
 # creating visitor dynamically
 
-visitable.accept do |visitable|
+visitor_code = Proc.new do |visitable|
   if(visitable.kind_of? MyVisitable1)
     puts "visitor: visiting my visitable 1"
   elsif(visitable.kind_of? MyVisitable2)
@@ -83,6 +78,7 @@ visitable.accept do |visitable|
     puts "visitor: visiting my visitable 3"
   elsif(visitable.kind_of? MyCompoundVisitable)
     puts "visitor: visiting my compound visitable"
-  end
+  end 
 end
 
+visitable.accept &visitor_code
