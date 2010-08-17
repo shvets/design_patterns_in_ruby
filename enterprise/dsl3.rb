@@ -4,7 +4,9 @@
 
 module Kernel
   def singleton_class
-    class << self; self; end
+    class << self;
+      self;
+    end
   end
 
   def define_attribute(name, value=nil)
@@ -24,23 +26,17 @@ end
 
 
 module Visitable
-  def accept(level=1, &visitor_code)
-    # p @before_code.call unless @before_code.nil?
-    
+  def accept(level, &visitor_code)
     visitor_code.call(level, self)
   end
-  
-  # def before &code
-  #   @before_code = code
-  # end
 end
 
 module HasName
   attr_accessor :name
 end
 
-# 1. Defines DSL elements: tree, trunk, branch, root, leaf. No need to specify 
-#    reltionship between them - we'll do it later with DSL builder.
+# 1. Defines DSL elements: tree, trunk, branch, root, leaf. No need to specify
+#    relationship between them - we'll do it later with DSL builder.
 
 class TreeElement
   include HasName
@@ -59,15 +55,9 @@ class Trunk < TreeElement
 end
 
 class Tree < TreeElement
-
-  def type
-    @type
+  def type(type=nil)
+    @type = type.nil? ? @type : type
   end
-  
-  def type(type)
-    @type = type
-  end
-  
 end
 
 
@@ -75,7 +65,9 @@ end
 
 class DSLBuilder
   def initialize &block
+    @nodes = []
     @records = []
+
     instance_eval(&block)
   end
 
@@ -83,14 +75,20 @@ class DSLBuilder
     @parent
   end
 
+  def add_node node
+    @nodes << node unless @nodes.include? node
+  end
+
   def parent parent
     @parent = parent
-    @records << { :root => parent }
+    add_node(parent)
+
+    @records << {:root => parent}
 
     parent_class = constantize(parent)
 
     parent_class.instance_eval do
-      define_method parent do |name, &block|
+      define_method parent do |name, &block |
         instance = parent_class.new(name)
 
         instance.instance_eval(&block)
@@ -99,13 +97,16 @@ class DSLBuilder
   end
 
   def child parent, child
-    @records << { :parent => parent, :child => child }
-    
+    add_node(parent)
+    add_node(child)
+
+    @records << {:parent => parent, :child => child}
+
     parent_class = constantize(parent)
     child_class = constantize(child)
-    
+
     parent_class.instance_eval do
-      define_method child do |&block|
+      define_method child do | &block |
         child = define_attribute(child, child_class.new)
 
         child.instance_eval(&block) unless block.nil?
@@ -114,13 +115,16 @@ class DSLBuilder
   end
 
   def children parent, child
-    @records << { :parent => parent, :children => child }    
-    
+    add_node(parent)
+    add_node(child)
+
+    @records << {:parent => parent, :children => child}
+
     parent_class = constantize(parent)
     child_class = constantize(child)
 
     parent_class.instance_eval do
-      define_method child do |name, &block|
+      define_method child do |name, &block |
         instance = child_class.new
         instance.name = name
 
@@ -148,8 +152,8 @@ class DSLBuilder
       instance
     end
 
-    assign_visitors(language)
-    
+    assign_visitors
+
     language
   end
 
@@ -158,144 +162,58 @@ class DSLBuilder
 
   def assign_visitor_to element
     element_class = constantize(element)
-    element_class.send :include, Visitable unless element_class.include? Visitable     
+    element_class.send :include, Visitable unless element_class.include? Visitable
   end
-  
-  def assign_visitors language
-    # p @records
-    # @records.each do |record|
-    #   record.each do |key, value|
-    #     if key == :root
-    #       assign_visitor_to(value) 
-    #     elsif key == :child
-    #       assign_visitor_to(value)
-    # 
-    #       parent_class = constantize(record[:parent])
-    #  p parent_class
-    #  p key
-    #  p value
-    #  
-    #       parent_class.class_eval do
-    #         alias original_accept accept
-    #         
-    #         def accept(level=1, &visitor_code)
-    #           p visitor_code.class
-    #           original_accept &visitor_code
-    # 
-    #           # takes care of components
-    #           instance_variable_get("@trunk".to_sym).accept(level+1, &visitor_code)
-    #         
-    #         end
-    #       end         
-    #     elsif key == :children
-    #       assign_visitor_to(value) 
-    #     end    
-    #   end
-    # end
-    
-   Leaf.send :include, Visitable
-   Branch.send :include, Visitable
-   Root.send :include, Visitable
-   Trunk.send :include, Visitable
-   Tree.send :include, Visitable
-       
-   Branch.class_eval do
-     alias original_accept accept
-   
-     def accept(level=1, &visitor_code)
-       original_accept level, &visitor_code
-   
-       # takes care of components
-       @leaf_list.each do |visitable|
-         visitable.accept(level+1, &visitor_code)
-       end
-     end
-   end
-   
-    Trunk.class_eval do
-      alias original_accept accept
-   
-      def accept(level=1, &visitor_code)
-        original_accept level, &visitor_code
-   
-        # takes care of components
-        @branch_list.each do |visitable|
-          visitable.accept(level+1, &visitor_code)
-        end
-   
-        @root_list.each do |visitable|
-          visitable.accept(level+1, &visitor_code) 
-        end
-      end
-    end
 
-    Tree.class_eval do
+  def override_accept_method element, components_patch
+    element_class = constantize(element)
+
+    element_class.class_eval <<-CODE
       alias original_accept accept
-    
-      def accept(level=1, &visitor_code)
-        original_accept &visitor_code
-    
+
+      def accept(level, &visitor_code)
+        original_accept level, &visitor_code
+
         # takes care of components
-        @trunk.accept(level+1, &visitor_code)
+        #{components_patch}
+      end
+    CODE
+  end
+
+  def assign_visitors
+    @nodes.each do |node|
+      assign_visitor_to(node)
+
+      children_records = @records.select { |record| record[:parent] == node && record[:children] != nil }
+
+      if children_records.size > 0
+        patch = ""
+        children_records.each do |record|
+          child = record[:children]
+
+          patch += <<-CODE
+            @#{child}_list.each do |visitable|
+              visitable.accept(level+1, &visitor_code)
+            end
+          CODE
+        end
+
+        override_accept_method(node, patch)
+      end
+
+      child_records = @records.select { |record| record[:parent] == node && record[:child] != nil }
+
+      if child_records.size > 0
+        child = child_records[0][:child]
+
+        patch = "@#{child}.accept(level+1, &visitor_code)"
+
+        override_accept_method(node, patch)
       end
     end
-    
-    
   end
 end
 
-# def assign_visitor_to object   
-#   object.extend Visitable unless object.class.include? Visitable
-# end
-#  
-# def create_visitables object
-#   assign_visitor_to(object)
-#   
-#   def object.accept(&visitor_code)
-#     visitor_code.call(self)
-# 
-#     # takes care of components
-#     @trunk.accept(&visitor_code)
-#   end
-# 
-#   trunk = object.instance_variable_get("@trunk".to_sym)
-# 
-#   def trunk.accept(&visitor_code)
-#     visitor_code.call(self)
-# 
-#     # takes care of components
-#     @branch_list.each do |visitable|
-#       visitable.accept(&visitor_code)
-#     end
-# 
-#     @root_list.each do |visitable| 
-#        visitable.accept(&visitor_code)
-#     end
-#   end
-# 
-#   branch_list = trunk.instance_variable_get("@branch_list".to_sym)
-# 
-#   branch_list.each do |branch|
-#     def branch.accept(&visitor_code)
-#       visitor_code.call(self)
-# 
-#       # takes care of components
-#       @leaf_list.each do |visitable|
-#         assign_visitor_to(visitable)
-# 
-#         visitable.accept(&visitor_code)
-#       end
-#     end
-#   end
-# 
-#   root_list = trunk.instance_variable_get("@root_list".to_sym)
-# 
-#   root_list.each do |root|
-#     def root.accept(&visitor_code)
-#       visitor_code.call(self)
-#     end
-#   end
-# end
 
 # 3. Creates new 'tree' language with the help of DSL builder.
 
@@ -339,22 +257,21 @@ puts "program body:"
 
 # visiting all program's elements
 
-# create_visitables(tree_program)
 
-tree_program.accept do |level, visitable|
+tree_program.accept(1) do |level, visitable|
   spaces = " " * ((level-1)*2)
-  
-  if(visitable.kind_of? Tree)
-    puts "#{spaces}Tree[name: #{visitable.name}; type: ]"
-  elsif(visitable.kind_of? Trunk)
+  if (visitable.kind_of? Tree)
+    puts "#{spaces}Tree[name: #{visitable.name}; type: #{visitable.type}]"
+  elsif (visitable.kind_of? Trunk)
     puts "#{spaces}Trunk"
-  elsif(visitable.kind_of? Branch)
+  elsif (visitable.kind_of? Branch)
     puts "#{spaces}Branch[name: #{visitable.name}]"
-  elsif(visitable.kind_of? Root)
+  elsif (visitable.kind_of? Root)
     puts "#{spaces}Root[name: #{visitable.name}]"
-  elsif(visitable.kind_of? Leaf)
+  elsif (visitable.kind_of? Leaf)
     puts "#{spaces}Leaf[name: #{visitable.name}]"
   else
     puts "oops: #{visitable.class.name}"
   end
 end
+

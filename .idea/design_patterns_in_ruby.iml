@@ -4,6 +4,13 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] rcov (v0.9.8, /Users/oshvets/.rvm/gems/ruby-1.8.7-p299/gems/rcov-0.9.8)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] columnize (v0.3.1, /Users/oshvets/.rvm/gems/ruby-1.8.7-p299/gems/columnize-0.3.1)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] linecache (v0.43, /Users/oshvets/.rvm/gems/ruby-1.8.7-p299/gems/linecache-0.43)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] rake (v0.8.7, /Users/oshvets/.rvm/gems/ruby-1.8.7-p299@global/gems/rake-0.8.7)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] ruby-debug (v0.10.3, /Users/oshvets/.rvm/gems/ruby-1.8.7-p299/gems/ruby-debug-0.10.3)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] ruby-debug-base (v0.10.3, /Users/oshvets/.rvm/gems/ruby-1.8.7-p299@global/gems/ruby-debug-base-0.10.3)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] ruby-debug-ide (v0.4.9, /Users/oshvets/.rvm/gems/ruby-1.8.7-p299/gems/ruby-debug-ide-0.4.9)" level="application" />
   </component>
 </module>
 

@@ -1,6 +1,6 @@
 # dsl1.rb
 
-# Domain Specific Languange (DSL) is simple set of commands for serving a specific domain. 
+# Domain Specific Languagge (DSL) is simple set of commands for serving a specific domain.
 # It could be implemented on object or class level. With object level we've got DSL scripts, with
 # the class level - metaprogramming statements
 
