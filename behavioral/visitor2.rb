@@ -34,7 +34,6 @@ class MyVisitable3
   include Visitable
 end
 
-
 # compound
 
 class MyCompoundVisitable

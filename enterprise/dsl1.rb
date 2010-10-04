@@ -1,8 +1,8 @@
 # dsl1.rb
 
-# Domain Specific Languagge (DSL) is simple set of commands for serving a specific domain.
+# Domain Specific Language (DSL) is simple set of commands for serving a specific domain.
 # It could be implemented on object or class level. With object level we've got DSL scripts, with
-# the class level - metaprogramming statements
+# the class level - meta-programming statements
 
 # This implementation uses object level.
   
@@ -129,7 +129,7 @@ module Tree::DSL
     tree = Tree.new(name)
     tree.instance_eval(&block)
     
-    return tree
+   tree
   end
 end
 
