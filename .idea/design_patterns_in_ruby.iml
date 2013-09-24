@@ -4,14 +4,6 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] mixology (v0.2.0, /Users/oshvets/.rvm/gems/ruby-1.8.7-p334@proteus/gems/mixology-0.2.0)" level="application" />
-    <orderEntry type="library" name="[gem] rcov (v0.9.8, null)" level="application" />
-    <orderEntry type="library" name="[gem] columnize (v0.3.1, null)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] linecache (v0.43, /Users/oshvets/.rvm/gems/ruby-1.8.7-p334@proteus/gems/linecache-0.43)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="[gem] rake (v0.8.7, /Users/oshvets/.rvm/gems/ruby-1.8.7-p334@global/gems/rake-0.8.7)" level="application" />
-    <orderEntry type="library" name="[gem] ruby-debug (v0.10.3, null)" level="application" />
-    <orderEntry type="library" name="[gem] ruby-debug-base (v0.10.3, null)" level="application" />
-    <orderEntry type="library" name="[gem] ruby-debug-ide (v0.4.9, null)" level="application" />
   </component>
 </module>
 

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DependencyValidationManager">
-    <option name="SKIP_IMPORT_STATEMENTS" value="false" />
-  </component>
   <component name="ProjectDetails">
     <option name="projectName" value="design_patterns_in_ruby" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Ruby SDK 1.8.7-p334 [proteus]" project-jdk-type="RUBY_SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="RVM: ruby-1.9.3-p448 [dpr]" project-jdk-type="RUBY_SDK" />
   <component name="SvnBranchConfigurationManager">
     <option name="mySupportsUserInfoFilter" value="true" />
   </component>
