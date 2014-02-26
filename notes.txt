@@ -3,3 +3,7 @@ Relations:
 1. Decorator is Adapter with additional pre-, post- and around- code;
 
 2. Factory Method is Template Method but applied to object creation instead of class creation.
+
+Interesting gem:
+
+https://github.com/chriswailes/filigree
