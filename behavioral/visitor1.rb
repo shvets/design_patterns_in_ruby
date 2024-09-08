@@ -11,7 +11,7 @@ def underscore(camel_cased_word)
   camel_cased_word.to_s.gsub(/::/, '/').
       gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2').
       gsub(/([a-z\d])([A-Z])/, '\1_\2').
-      tr("-", "_").
+      tr('-', '_').
       downcase
 end
 
@@ -30,14 +30,14 @@ end
 
 # basic parts
 
-class MyVisitable1 
+class MyVisitable1
   include Visitable
 end
 
 class MyVisitable2
   include Visitable
 end
-    
+
 class MyVisitable3
   include Visitable
 end
@@ -47,7 +47,7 @@ end
 
 class MyCompoundVisitable
   include Visitable
-    
+
   def initialize
     @visitable1 = MyVisitable1.new
     @visitable2 = MyVisitable2.new
@@ -67,7 +67,7 @@ class MyCompoundVisitable
     @visitable2.accept(visitor)
 
     @visitables3.each { |visitable| visitable.accept(visitor) }
-  end     
+  end
 end
 
 # 3. visitor implementations
@@ -82,19 +82,19 @@ class MyCompoundVisitor1
   end
 
   def visit_my_visitable1 visitable
-    puts "visitor: visiting my visitable 11"
+    puts 'visitor: visiting my visitable 11'
   end
 
   def visit_my_visitable2 visitable
-    puts "visitor: visiting my visible 12"
+    puts 'visitor: visiting my visible 12'
   end
 
   def visit_my_visitable3 visitable
-    puts "visitor: visiting my visitable 13"
+    puts 'visitor: visiting my visitable 13'
   end
 
   def visit_my_compound_visitable visitable
-    puts "visitor: visiting my compound visitable 1"
+    puts 'visitor: visiting my compound visitable 1'
   end
 end
 
@@ -105,7 +105,7 @@ end
 visitable = MyCompoundVisitable.new
 
 visitor1 = MyCompoundVisitor1.new
-  
+
 visitable.accept(visitor1)
 
 # creating visitor dynamically
@@ -113,14 +113,17 @@ visitable.accept(visitor1)
 class MyCompoundVisitor2
   include Visitor
   def visit visitable
-    if(visitable.kind_of? MyVisitable1)
-      puts "visitor: visiting my visitable 21"
-    elsif(visitable.kind_of? MyVisitable2)
-      puts "visitor: visiting my visible 22"
-    elsif(visitable.kind_of? MyVisitable3)
-      puts "visitor: visiting my visitable 23"
-    elsif(visitable.kind_of? MyCompoundVisitable)
-      puts "visitor: visiting my compound visitable 2"
+    case visitable
+    when MyVisitable1
+      puts 'visitor: visiting my visitable 21'
+    when MyVisitable2
+      puts 'visitor: visiting my visible 22'
+    when MyVisitable3
+      puts 'visitor: visiting my visitable 23'
+    when MyCompoundVisitable
+      puts 'visitor: visiting my compound visitable 2'
+    else
+      # type code here
     end
   end
 end

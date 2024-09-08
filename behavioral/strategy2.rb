@@ -4,8 +4,7 @@
 
 # 1. strategy context
 
-class StrategyContext 
-
+class StrategyContext
   def execute &strategy
     strategy.call(self)
   end

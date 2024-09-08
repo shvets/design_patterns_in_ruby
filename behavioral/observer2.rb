@@ -3,27 +3,27 @@
 # Slight modification of previous example with metaprogramming to wrap methods
 # that needs to be observed.
 
-# 1. observer 
+# 1. observer
 
 class Observer
-  def initialize(name) 
+  def initialize(name)
     @name = name
   end
 
   def update(value)
-    puts "updated " + @name + ". New value: " + value
+    puts "updated #{@name}. New value: #{value}"
   end
 end
 
 # 2. Observable, serves as a container for observers and takes care of notifying them
 
 module ObservableClassMethods
-  def act_as_observable *list
+  def act_as_observable(* list)
     list.each do |observable|
-      method_name = "#{observable.to_s}="
-      no_callback_method_name = "no_callback_#{observable.to_s}="
+      method_name = "#{observable}="
+      no_callback_method_name = "no_callback_#{observable}="
 
-      alias_method no_callback_method_name, method_name 
+      alias_method no_callback_method_name, method_name
 
       define_method method_name do |value|
         send no_callback_method_name, value
@@ -34,42 +34,42 @@ module ObservableClassMethods
   end
 end
 
-module Observable 
+module Observable
   def self.included(base)
     base.extend(ObservableClassMethods)
   end
-  
+
   def initialize
     @observers = []
   end
 
-  def <<(observer) 
+  def <<(observer)
     @observers << observer
   end
-  
-  def >>(observer) 
+
+  def >>(observer)
     @observers.delete(observer)
   end
 
   protected
 
-  def notify_observers(value) 
-    @observers.clone.each do |observer| 
-      observer.update(value) if observer.kind_of? Observer
-      observer.call(value)  if observer.kind_of? Proc
+  def notify_observers(value)
+    @observers.clone.each do |observer|
+      observer.update(value) if observer.is_a? Observer
+      observer.call(value) if observer.is_a? Proc
     end
   end
 end
 
 # 3. Implementation of the observer
-class MyObservable 
+class MyObservable
   include Observable
-  
+
   attr_accessor :my_property
-  
+
   # def my_property=(my_property)
   #   @my_property = my_property
-  #   
+  #
   #   notify_observers(my_property)
   # end
   act_as_observable :my_property
@@ -77,10 +77,10 @@ end
 
 # 4. test
 
-observer1 = Observer.new("n1")
-observer2 = Observer.new("n2")
-observer3 = Observer.new("n3")
-observer4 = lambda { |value| puts "updated from lambda (update is :#{value})" }
+observer1 = Observer.new('n1')
+observer2 = Observer.new('n2')
+observer3 = Observer.new('n3')
+observer4 = ->(value) { puts "updated from lambda (update is :#{value})" }
 
 my_observable = MyObservable.new
 

@@ -15,19 +15,19 @@ end
 
 class MyCommand1 < Command
   def execute
-    puts "command1"
+    puts 'command1'
   end
 end
 
 class MyCommand2 < Command
   def execute
-     puts "command2"
+    puts 'command2'
   end
 end
 
 class MyCommand3 < Command
   def execute
-     puts "command3"
+    puts 'command3'
   end
 end
 

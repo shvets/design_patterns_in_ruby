@@ -1,14 +1,14 @@
 # abstract-factory.rb
 
-# Provides an interface for creationg families of related or dependent objects without specifying
+# Provides an interface for creating families of related or dependent objects without specifying
 # their concrete class.
 #
-# Provides one level of interface higher than the Factory Method pattern. 
+# Provides one level of interface higher than the Factory Method pattern.
 # It is used to return one of the several factories.
 
 # 1. common interface for type and it's specializations
 
-class Alive 
+class Alive
   def live
   end
 end
@@ -21,59 +21,59 @@ end
 
 # 2. implementations of specializations
 
-class Roze < Plant 
+class Roze < Plant
   def live
-    puts "roze" 
+    puts 'roze'
   end
 end
 
-class Elephant < Animal 
+class Elephant < Animal
   def live
-    puts "elephant"
+    puts 'elephant'
   end
 end
 
 # 3. interface for factory (abstract factory)
 
-class AliveFactory 
+class AliveFactory
   def create_alive
   end
 end
 
 # 4. different factories implementations
 
-class PlantFactory < AliveFactory 
+class PlantFactory < AliveFactory
   def create_alive
     Roze.new
   end
 end
 
-class AnimalFactory < AliveFactory 
+class AnimalFactory < AliveFactory
   def create_alive
     Elephant.new
   end
 end
 
-class DynamicAliveFactory 
+class DynamicAliveFactory
   def initialize(alive_class)
     @alive_class = alive_class
   end
 
   def create_alive
-    @alive_class.new 
+    @alive_class.new
   end
 end
 
 # 5. factories manager (optional)
 
-class AliveManager 
+class AliveManager
   def create_alive_factory(type)
-    if(type == :plant) 
+    if type == :plant
       PlantFactory.new
-    elsif(type == :animal) 
+    elsif type == :animal
       AnimalFactory.new
     end
-  end 
+  end
 end
 
 # 6. test
@@ -85,7 +85,7 @@ alive_factory2 = alive_manager.create_alive_factory(:animal)
 alive_factory3 = DynamicAliveFactory.new(Roze)
 
 alive1 = alive_factory1.create_alive
-alive2 = alive_factory2.create_alive 
+alive2 = alive_factory2.create_alive
 alive3 = alive_factory3.create_alive
 
 alive1.live

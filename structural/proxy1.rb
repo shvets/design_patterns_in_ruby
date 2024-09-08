@@ -13,27 +13,26 @@ end
 
 class MySubject < Subject
   def process
-    puts "my process"
+    puts 'my process'
   end
 end
 
 # 3. type proxy implementation
 
 class SubjectProxy < Subject
-
   def initialize(subject)
     @subject = subject
   end
 
   def process
     puts("Delegating 'process' message to subject.")
-    
+
     @subject.process
   end
 end
 
 
-# 4. test 
+# 4. test
 
 proxy = SubjectProxy.new(MySubject.new)
 

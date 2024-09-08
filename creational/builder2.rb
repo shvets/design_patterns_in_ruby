@@ -4,18 +4,15 @@
 
 # 1. type builder interface
 
-class ProductBuilder 
-  def build_part1
-  end
+class ProductBuilder
+  def build_part1; end
 
-  def build_part2
-  end
+  def build_part2; end
 
-  def build_part3
-  end
+  def build_part3; end
 
   def method_missing(name, *args)
-    words = name.to_s.split("_")
+    words = name.to_s.split('_')
 
     return super(name, *args) unless words.shift == 'build'
 
@@ -32,38 +29,38 @@ end
 
 # 2. type builder implementations
 
-class ComputerBuilder < ProductBuilder 
+class ComputerBuilder < ProductBuilder
   def build_part1
-    puts "Building part1: motherboard"
+    puts 'Building part1: motherboard'
   end
 
   def build_part2
-    puts "Building part2: CPU"
+    puts 'Building part2: CPU'
   end
 
   def build_part3
-    puts "Building part3: display"
+    puts 'Building part3: display'
   end
 end
 
-class TableBuilder < ProductBuilder 
+class TableBuilder < ProductBuilder
   def build_part1
-    puts "Building part1: legs"
+    puts 'Building part1: legs'
   end
 
   def build_part2
-    puts "Building part2: top"
+    puts 'Building part2: top'
   end
 
   def build_part3
-    puts "Building part3: mounting"
+    puts 'Building part3: mounting'
   end
 end
 
 # 3. director
 
-class Director 
-  def construct_with_magic(builder) 
+class Director
+  def construct_with_magic(builder)
     builder.build_part1_and_part2_and_part3
   end
 end
@@ -72,6 +69,6 @@ end
 
 director = Director.new
 
-puts "with magic:"
+puts 'with magic:'
 director.construct_with_magic(ComputerBuilder.new)
 director.construct_with_magic(TableBuilder.new)

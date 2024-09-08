@@ -1,6 +1,6 @@
 # decorator2.rb
 
-# Attaches additional responsibilities to an object dynamically. 
+# Attaches additional responsibilities to an object dynamically.
 # Provides a flexible alternative to subclassing for extending functionality.
 
 # 1. type interface
@@ -14,7 +14,7 @@ end
 
 class ConcreteComponent < Component
   def operation
-    puts "my component"
+    puts 'my component'
   end
 end
 

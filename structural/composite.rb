@@ -7,7 +7,7 @@
 
 module Component
   def operation
-     puts "component operation"
+    puts 'component operation'
   end
 end
 
@@ -20,8 +20,8 @@ module Composite
     @children << component
   end
 
-  def >>(component)
-    @children.delete(component)
+  def >>(other)
+    @children.delete(other)
   end
 
   def [](index)
@@ -33,18 +33,18 @@ module Composite
   end
 
   def operation
-    puts "composite operation"
+    puts 'composite operation'
 
-    @children.each {|child| child.operation}
+    @children.each(&:operation)
   end
 
   def to_s
-    "children: " + @children.join(', ')
-  end                    
+    "children: #{@children.join(', ')}"
+  end
 end
 
 
-# 2. implementations 
+# 2. implementations
 
 class Leaf
   include Component
@@ -55,7 +55,7 @@ class Leaf
 
   def to_s
     "leaf[name: #{@name}]"
-  end                    
+  end
 end
 
 class Tree
@@ -69,17 +69,17 @@ class Tree
 
   def to_s
     "tree[name: #{@name}; children: #{@children.join(', ')}]"
-  end                    
+  end
 end
 
 # 3. test
 
-tree1 = Tree.new("t1")
-tree2 = Tree.new("t2")
+tree1 = Tree.new('t1')
+tree2 = Tree.new('t2')
 
-leaf1 = Leaf.new("l1")
-leaf2 = Leaf.new("l2")
-leaf3 = Leaf.new("l3")
+leaf1 = Leaf.new('l1')
+leaf2 = Leaf.new('l2')
+leaf3 = Leaf.new('l3')
 
 tree1 << tree2
 tree1 << leaf1
@@ -87,22 +87,22 @@ tree1 << leaf2
 
 tree2 << leaf3
 
-puts "Hierarchy: \n" + tree1.to_s
-puts "-------"
+puts "Hierarchy: \n#{tree1}"
+puts '-------'
 
-puts "Second element: " + tree1[1].to_s
-puts "-------"
+puts "Second element: #{tree1[1]}"
+puts '-------'
 
-tree1[1] = Leaf.new("l4")
-puts "Set second element to: " + tree1[1].to_s
-puts "-------"
+tree1[1] = Leaf.new('l4')
+puts "Set second element to: #{tree1[1]}"
+puts '-------'
 
 tree1 >> leaf1
 
-puts "Hierarchy: \n" + tree1.to_s
-puts "-------"
+puts "Hierarchy: \n#{tree1}"
+puts '-------'
 
 puts "Operation on composite: \n"
 
 tree1.operation
-puts "-------"
+puts '-------'

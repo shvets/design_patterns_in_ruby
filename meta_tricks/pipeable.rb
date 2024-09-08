@@ -1,11 +1,10 @@
 # from https://gist.github.com/petrachi/637f9367404708ec341a
 
-A = ->(s){ s << "a" }
-B = ->(s){ s << "b" }
-C = ->(s){ s << "c" }
+A = ->(s){ s << 'a' }
+B = ->(s){ s << 'b' }
+C = ->(s){ s << 'c' }
 
-str = ""
-
+str = ''
 
 class Object
   PIPED = ->(*args, arg){ arg.is_a?(Proc) ? arg[PIPED[*args]] : arg }

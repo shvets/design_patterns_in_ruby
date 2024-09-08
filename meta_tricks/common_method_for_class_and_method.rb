@@ -1,18 +1,18 @@
 # 1. This module has method that creates class and instance methods for block of code
 
 module UseCommonCode
-  def use_common_code method_name,  &common_code_block
+  def use_common_code(method_name, &common_code_block)
     # define method for the class
 
-    self.define_singleton_method method_name do
-      puts "Inside class method:"
+    define_singleton_method method_name do
+      puts 'Inside class method:'
       common_code_block.call
     end
 
     # define method for the instance
 
-    self.send :define_method, method_name do
-      puts "Inside instance method:"
+    send :define_method, method_name do
+      puts 'Inside instance method:'
       common_code_block.call
     end
   end

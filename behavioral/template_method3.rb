@@ -2,10 +2,10 @@
 
 # This example uses Strategy Pattern for storing steps of template method algorithm.
 
-# 1. Strategy 
+# 1. Strategy
 
 class TemplateMethodStep
-  def initialize &code
+  def initialize(&code)
     @code = code
   end
 
@@ -16,15 +16,15 @@ end
 
 # 2. template method algorithm; also acts as strategy context
 
-module AlgorithmTemplate  
+module AlgorithmTemplate
   def initialize
     @steps = [] # strategies
   end
 
   # The "template method"
-  def some_template_method 
-    @steps.each { | step | step.operation }
-  end  
+  def some_template_method
+    @steps.each(&:operation)
+  end
 end
 
 class MyAlgorithmTemplate1
@@ -33,9 +33,9 @@ class MyAlgorithmTemplate1
   def initialize
     super
 
-    @steps << TemplateMethodStep.new { puts "stategy1: step1" }
-    @steps << TemplateMethodStep.new { puts "stategy1: step2" }
-    @steps << TemplateMethodStep.new { puts "stategy1: step3" } 
+    @steps << TemplateMethodStep.new { puts 'stategy1: step1' }
+    @steps << TemplateMethodStep.new { puts 'stategy1: step2' }
+    @steps << TemplateMethodStep.new { puts 'stategy1: step3' }
   end
 end
 
@@ -45,9 +45,9 @@ class MyAlgorithmTemplate2
   def initialize
     super
 
-    @steps << TemplateMethodStep.new { puts "stategy2: step1" }
-    @steps << TemplateMethodStep.new { puts "stategy2: step2" }
-    @steps << TemplateMethodStep.new { puts "stategy2: step3" } 
+    @steps << TemplateMethodStep.new { puts 'strategy2: step1' }
+    @steps << TemplateMethodStep.new { puts 'strategy2: step2' }
+    @steps << TemplateMethodStep.new { puts 'strategy2: step3' }
   end
 end
 

@@ -83,12 +83,12 @@ class DSLBuilder
     @parent = parent
     add_node(parent)
 
-    @records << {:root => parent}
+    @records << {root: parent}
 
     parent_class = constantize(parent)
 
     parent_class.instance_eval do
-      define_method parent do |name, &block |
+      define_method parent do |name, &block|
         instance = parent_class.new(name)
 
         instance.instance_eval(&block)
@@ -96,17 +96,17 @@ class DSLBuilder
     end
   end
 
-  def child parent, child
+  def child(parent, child)
     add_node(parent)
     add_node(child)
 
-    @records << {:parent => parent, :child => child}
+    @records << { parent: parent, child: child }
 
     parent_class = constantize(parent)
     child_class = constantize(child)
 
     parent_class.instance_eval do
-      define_method child do | &block |
+      define_method child do |&block|
         child = define_attribute(child, child_class.new)
 
         child.instance_eval(&block) unless block.nil?
@@ -114,17 +114,17 @@ class DSLBuilder
     end
   end
 
-  def children parent, child
+  def children(parent, child)
     add_node(parent)
     add_node(child)
 
-    @records << {:parent => parent, :children => child}
+    @records << { parent: parent, children: child }
 
     parent_class = constantize(parent)
     child_class = constantize(child)
 
     parent_class.instance_eval do
-      define_method child do |name, &block |
+      define_method child do |name, &block|
         instance = child_class.new
         instance.name = name
 
@@ -137,7 +137,7 @@ class DSLBuilder
     end
   end
 
-  def build name
+  def build(name)
     language_class = Class.new
     language = language_class.new
     language.define_attribute(:parent, @parent)
@@ -160,15 +160,15 @@ class DSLBuilder
   private
 
 
-  def assign_visitor_to element
+  def assign_visitor_to(element)
     element_class = constantize(element)
     element_class.send :include, Visitable unless element_class.include? Visitable
   end
 
-  def override_accept_method element, components_patch
+  def override_accept_method(element, components_patch)
     element_class = constantize(element)
 
-    element_class.class_eval <<-CODE
+    element_class.class_eval <<-CODE, __FILE__, __LINE__ + 1
       alias original_accept accept
 
       def accept(level, &visitor_code)
@@ -184,10 +184,10 @@ class DSLBuilder
     @nodes.each do |node|
       assign_visitor_to(node)
 
-      children_records = @records.select { |record| record[:parent] == node && record[:children] != nil }
+      children_records = @records.select { |record| record[:parent] == node && !record[:children].nil? }
 
-      if children_records.size > 0
-        patch = ""
+      unless children_records.empty?
+        patch = ''
         children_records.each do |record|
           child = record[:children]
 
@@ -201,9 +201,9 @@ class DSLBuilder
         override_accept_method(node, patch)
       end
 
-      child_records = @records.select { |record| record[:parent] == node && record[:child] != nil }
+      child_records = @records.select { |record| record[:parent] == node && !record[:child].nil? }
 
-      if child_records.size > 0
+      unless child_records.empty?
         child = child_records[0][:child]
 
         patch = "@#{child}.accept(level+1, &visitor_code)"
@@ -253,22 +253,23 @@ end
 # printing the program
 
 puts "program: #{tree_program.name}"
-puts "program body:"
+puts 'program body:'
 
 # visiting all program's elements
 
 
 tree_program.accept(1) do |level, visitable|
-  spaces = " " * ((level-1)*2)
-  if (visitable.kind_of? Tree)
+  spaces = ' ' * ((level-1)*2)
+  case visitable
+  when Tree
     puts "#{spaces}Tree[name: #{visitable.name}; type: #{visitable.type}]"
-  elsif (visitable.kind_of? Trunk)
+  when Trunk
     puts "#{spaces}Trunk"
-  elsif (visitable.kind_of? Branch)
+  when Branch
     puts "#{spaces}Branch[name: #{visitable.name}]"
-  elsif (visitable.kind_of? Root)
+  when Root
     puts "#{spaces}Root[name: #{visitable.name}]"
-  elsif (visitable.kind_of? Leaf)
+  when Leaf
     puts "#{spaces}Leaf[name: #{visitable.name}]"
   else
     puts "oops: #{visitable.class.name}"

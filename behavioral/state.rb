@@ -14,27 +14,19 @@ end
 
 class MyState1 < State
   def handle
-    puts "handle1"
+    puts 'handle1'
   end
 end
 
 class MyState2 < State
   def handle
-    puts "handle2"
+    puts 'handle2'
   end
 end
 
 # 2. context's type and it's implementation
 
 class Context
-  def set_state(state)
-  end
-
-  def request
-  end
-end
-
-class MyContext < Context
   def state=(state)
     @state = state
   end
@@ -46,7 +38,7 @@ end
 
 # 3. test
 
-context = MyContext.new
+context = Context.new
 
 state1 = MyState1.new
 state2 = MyState2.new

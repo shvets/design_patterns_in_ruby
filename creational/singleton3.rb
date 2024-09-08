@@ -1,11 +1,11 @@
 # singleton3.rb
 
-# Usually you have to avoid using Singeton, because it's not possible to mock (and consequently test) it. 
+# Usually you have to avoid using Singleton, because it's not possible to mock (and consequently test) it.
 #
 # This example is trying to replace Singleton pattern with interface inheritance and dependency injection.
-# Now we can mock the singleton. 
+# Now we can mock the singleton.
 
-# 1. Define singleton. 
+# 1. Define singleton.
 
 class Singleton
   def operation
@@ -16,7 +16,7 @@ end
 
 class MySingleton < Singleton
   def operation
-    puts "operation"
+    puts 'operation'
   end
 end
 
@@ -30,15 +30,13 @@ class SingletonUser
   def do_something
     @singleton.operation
   end
-
 end
 
 # 4. Create mock object for the singleton.
 
 class MockSingleton < Singleton
-
   def operation
-    puts "mock operation"
+    puts 'mock operation'
   end
 
 end
@@ -51,9 +49,9 @@ class SingletonTest
     singleton = MockSingleton.new
 
     singleton_user = SingletonUser.new(singleton)
-    
+
     singleton_user.do_something
-    
+
     # assertions
   end
 end

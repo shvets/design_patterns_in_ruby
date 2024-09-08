@@ -6,7 +6,7 @@
 
 class Item
   def operation
-    puts "executing operation..."
+    puts 'executing operation...'
   end
 end
 
@@ -20,10 +20,10 @@ class ItemProxy < Item
   end
 
   def self.subject
-    if (@subject == nil)
-      puts "Creating new instance"
+    if @subject.nil?
+      puts 'Creating new instance'
     else
-      puts "Using existing instance"
+      puts 'Using existing instance'
     end
 
     @subject || (@subject = @@creation_block.call)

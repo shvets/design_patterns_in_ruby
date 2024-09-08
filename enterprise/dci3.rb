@@ -4,20 +4,20 @@
 # 1. Data
 
 class Account
-	attr_accessor :balance
+  attr_accessor :balance
 
-	def initialize balance
-	  @balance = balance
-	end
+  def initialize balance
+    @balance = balance
+  end
 
   def decrease_balance(amount)
-    @balance -= amount 
+    @balance -= amount
   end
 
   def increase_balance(amount)
-    @balance += amount 
+    @balance += amount
   end
-  
+
   def update_log(message, amount)
     puts "#{message} : #{amount}"
   end
@@ -43,9 +43,9 @@ module Context
     self.context = self
 
     res = yield
-    
+
     self.context = old_context
-    
+
     res
   end
 end
@@ -56,13 +56,13 @@ module SourceAccount
   include ContextAccessor
 
   def transfer_out amount
-    raise "Insufficient funds" if balance < amount
+    raise 'Insufficient funds' if balance < amount
 
     decrease_balance amount
 
     context.destination_account.transfer_in amount
 
-    update_log "Transferred out", amount
+    update_log 'Transferred out', amount
   end
 end
 
@@ -72,7 +72,7 @@ module DestinationAccount
   def transfer_in amount
     increase_balance amount
 
-    update_log "Transferred in", amount
+    update_log 'Transferred in', amount
   end
 end
 
@@ -100,25 +100,25 @@ end
 # 5. Actual Program
 
 class Interaction
-	attr_reader :source, :destination
+  attr_reader :source, :destination
 
   def initialize
-		@source = Account.new 57
-		@destination = Account.new 124
+    @source = Account.new 57
+    @destination = Account.new 124
   end
 
   def interact
-		context = TransferringMoney.new(source, destination)
+    context = TransferringMoney.new(source, destination)
 
-		puts "Before:"
-		puts "Source balance: #{source.balance}"
-		puts "Destination balance: #{destination.balance}"
+    puts 'Before:'
+    puts "Source balance: #{source.balance}"
+    puts "Destination balance: #{destination.balance}"
 
-		context.transfer 12
+    context.transfer 12
 
-		puts "After:"
-		puts "Source balance: #{source.balance}"
-		puts "Destination balance: #{destination.balance}"    
+    puts 'After:'
+    puts "Source balance: #{source.balance}"
+    puts "Destination balance: #{destination.balance}"
   end
 end
 

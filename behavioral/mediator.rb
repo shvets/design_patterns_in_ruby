@@ -18,11 +18,11 @@ end
 
 class MyMediator < Mediator
   def operation1
-    puts "mediator: operation 1"
+    puts 'mediator: operation 1'
   end
 
   def operation2
-    puts "mediator: operation 2"
+    puts 'mediator: operation 2'
   end
 end
 

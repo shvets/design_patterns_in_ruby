@@ -3,68 +3,53 @@
 # 1. observer and observable interfaces (see Observer pattern)
 
 class Observer
-  def update(key, value)
-  end
+  def update(key, value); end
 end
 
-class Observable # see Observer pattern
-  def add_observer(observer)
-  end
-  
-  def remove_observer(observer)
-  end
+# see Observer pattern
+class Observable
+  def add_observer(observer); end
 
-  def notifyObservers(key, value)
-  end
+  def remove_observer(observer); end
+
+  def notify_observers(key, value); end
 end
 
 # 2. Model, Controller-Mediator-Observer, View
 
 class Model
-  def value(key)
-  end
+  def value(key); end
 
-  def set_data(key, value)
-  end
+  def set_data(key, value); end
 
-  def get_observable
-  end
+  def get_observable; end
 end
 
 class Controller < Observer
-  # Binds a model to this controller. Once added, the controller will listen for all 
-  # model property changes and propogate them on to registered views. In addition,
+  # Binds a model to this controller. Once added, the controller will listen for all
+  # model property changes and propagate them on to registered views. In addition,
   # it is also responsible for resetting the model properties when a view changes state.
-  def add_model(model)
-  end
+  def add_model(model); end
 
-  def remove_model(model)
-  end
-  
-  # Binds a view to this controller. The controller will propogate all model property
+  def remove_model(model); end
+
+  # Binds a view to this controller. The controller will propagate all model property
   # changes to each view for consideration.
-  def add_view(view)
-  end
-  
-  def remove_view(view)
-  end
+  def add_view(view); end
 
-  def models
-  end
+  def remove_view(view); end
 
-  def views
-  end
+  def models; end
 
-  def operation1(value)
-  end
+  def views; end
 
-  def operation2(value)
-  end
+  def operation1(value); end
+
+  def operation2(value); end
 end
 
 class View < Observer
-  def set_controller(controller)
-  end
+  def set_controller(controller); end
 end
 
 # 3. Implementation of observable
@@ -77,13 +62,13 @@ class AbstractObservable < Observable
   def add_observer(observer)
     @observers << observer
   end
-  
-  def removeObserver(observer)
+
+  def remove_observer(observer)
     @observers.delete(observer)
   end
 
   def notify_observers(key, value)
-    @observers.clone().each { |observer| observer.update(key, value) }
+    @observers.clone.each { |observer| observer.update(key, value) }
   end
 end
 
@@ -105,14 +90,15 @@ class MyModel < Model
     @data[key]
   end
 
-  def set_data(key, value) # mutator
+# mutator
+  def set_data(key, value)
     @data[key] = value
 
     @observable.notify_observers(key, value) # notify about state change
   end
 
   def to_s
-    "model: " + @data.to_s
+    "model: #{@data}"
   end
 end
 
@@ -168,7 +154,7 @@ class AbstractController < Controller
 
   # This method represents changes view -> models
 
-  # Convienence method that subclasses can call upon to fire off property changes
+  # Convenience method that subclasses can call upon to fire off property changes
   # back to the models. This method used reflection to inspect each of the model
   # classes to determine if it is the owner of the property in question. If it
   # isn't, a NoSuchMethodException is throws (which the method ignores).
@@ -181,7 +167,7 @@ class MyView < View
   def controller=(controller)
     @controller = controller
   end
-                                    
+
   def property1=(value)
     @property1 = value
 
@@ -195,17 +181,17 @@ class MyView < View
   end
 
   def update(key, value)
-    if(key == :property1)
+    if key == :property1
       @property1 = value
     end
 
-    if(key == :property2)
+    if key == :property2
       @property2 = value
     end
   end
 
   def to_s
-    "view[property1: " + @property1.to_s + "; property2: " + @property2.to_s + "]"
+    "view[property1: #{@property1}; property2: #{@property2}]"
   end
 end
 
@@ -225,10 +211,10 @@ end
 
 def print_controller(controller)
   i = 1
-  controller.models.each { |model| puts "model" + i.to_s + ": " + model.to_s; i = i+1 }
+  controller.models.each { |model| puts "model#{i}: #{model}"; i = i+1 }
 
   i = 1
-  controller.views.each { |view| puts "view" + i.to_s + ": " + view.to_s; i = i+1 }
+  controller.views.each { |view| puts "view#{i}: #{view}"; i = i+1 }
 end
 
 controller1 = MyController.new
@@ -257,27 +243,27 @@ controller2.add_view(view21)
 controller2.add_view(view22)
 controller2.add_view(view23)
 
-puts "1. changes in model1"
+puts '1. changes in model1'
 
-model1.set_data(:property1, "555")
-
-print_controller(controller1)
-
-puts "2. changes in view12"
-
-view12.property2 = "777"
+model1.set_data(:property1, '555')
 
 print_controller(controller1)
 
-puts "3. changes in model3"
+puts '2. changes in view12'
 
-model3.set_data(:property1, "111")
+view12.property2 = '777'
+
+print_controller(controller1)
+
+puts '3. changes in model3'
+
+model3.set_data(:property1, '111')
 
 print_controller(controller2)
 
-puts "4. changes in view23"
+puts '4. changes in view23'
 
-view23.property1 = "222"
-view23.property2 = "333"
+view23.property1 = '222'
+view23.property2 = '333'
 
 print_controller(controller2)

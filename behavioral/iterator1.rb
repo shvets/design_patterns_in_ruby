@@ -6,11 +6,11 @@
 # 1. iterator implementation (original collection is initialized internally)
 
 module Iterator
-  def initialize()
+  def initialize
     @array = []
   end
 
-  def each()
+  def each
     copy = Array.new(@array)
 
     i = 0
@@ -31,13 +31,13 @@ class MyIterator
   def initialize
     super
 
-    @array = ['e1', 'e2', 'e3', 'e4']
+    @array = %w[e1 e2 e3 e4]
   end
 end
 
 
 # test
 
-iterator = MyIterator.new()
+iterator = MyIterator.new
 
-iterator.each {|e| puts e.to_s}
+iterator.each {|e| puts e}

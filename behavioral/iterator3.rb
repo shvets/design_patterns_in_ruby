@@ -9,17 +9,17 @@ class MyEnumerable
     i = 0
     while i < array.length
       yield(array[i])
-      i+=1
+      i += 1
     end
   end
 end
 
 # 2. test
 
-array = ['e1', 'e2', 'e3', 'e4']
- 
+array = %w[e1 e2 e3 e4]
+
 my_enumerable = MyEnumerable.new
- 
+
 my_enumerable.for_each(array) do |e|
   puts e
 end

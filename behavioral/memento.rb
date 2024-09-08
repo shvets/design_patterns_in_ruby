@@ -22,9 +22,7 @@ class Originator
     @state = nil
   end
 
-  def state=(state)
-    @state = state
-  end
+  attr_writer :state
 
   def state_to_s
     @state.to_s
@@ -40,7 +38,7 @@ class Originator
 end
 
 
-# 2. Caretaker holds previously creted mementos: storage 
+# 2. Caretaker holds previously created mementos: storage
 
 class Caretaker
   def initialize
@@ -61,23 +59,23 @@ end
 caretaker = Caretaker.new
 originator = Originator.new
 
-originator.state = "State1"
-puts "step1: " + originator.state_to_s
+originator.state = 'State1'
+puts "step1: #{originator.state_to_s}"
 
-originator.state = "State2"
-puts "step2: " + originator.state_to_s
+originator.state = 'State2'
+puts "step2: #{originator.state_to_s}"
 
-caretaker.add_memento(originator.create_memento())
-puts "step3: " + originator.state_to_s
+caretaker.add_memento(originator.create_memento)
+puts "step3: #{originator.state_to_s}"
 
-originator.state = "State3"
-puts "step4: "+ originator.state_to_s
+originator.state = 'State3'
+puts "step4: #{originator.state_to_s}"
 
-caretaker.add_memento(originator.create_memento())
-puts "step5: " + originator.state_to_s
+caretaker.add_memento(originator.create_memento)
+puts "step5: #{originator.state_to_s}"
 
-originator.state = "State4"
-puts "step6: " + originator.state_to_s
+originator.state = 'State4'
+puts "step6: #{originator.state_to_s}"
 
 originator.restore_memento(caretaker[1])
-puts "step7: " + originator.state_to_s
+puts "step7: #{originator.state_to_s}"

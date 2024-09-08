@@ -5,7 +5,8 @@ require 'rubygems'
 require 'mixology'
 
 # 1. Data (or model)
-class DataObject # thin data/model
+# thin data/model
+class DataObject
   attr_accessor :basic_property
 end
 
@@ -21,7 +22,8 @@ end
 # 3. The place where role is assigned to data/model.
 # We do it dynamically at run-time, on object, not class declaration level.
 
-class Context # or use case (or controller)
+# or use case (or controller)
+class Context
   def initialize data
     @data = data
   end
@@ -32,12 +34,12 @@ class Context # or use case (or controller)
     begin
       @data.role1_property
     rescue
-      p "Error: role1_property is not available yet"
+      p 'Error: role1_property is not available yet'
     end
 
     @data.mixin Role1
 
-    @data.role1_property = "test_role1"
+    @data.role1_property = 'test_role1'
     p @data.role1_property
 
     @data.unmix Role1
@@ -45,13 +47,14 @@ class Context # or use case (or controller)
     begin
       @data.role1_property
     rescue
-      p "Error: role1_property is not available again"
+      p 'Error: role1_property is not available again'
     end
 
   end
 end
 
-class UseCase # or context
+# or context
+class UseCase
   def initialize data
     @data = data
   end
@@ -62,12 +65,12 @@ class UseCase # or context
     begin
       @data.role2_property
     rescue
-      p "Error: role2_property is not available yet"
+      p 'Error: role2_property is not available yet'
     end
 
     @data.mixin Role2
 
-    @data.role2_property = "test_role2"
+    @data.role2_property = 'test_role2'
     p @data.role2_property
 
     @data.unmix Role2
@@ -75,7 +78,7 @@ class UseCase # or context
     begin
       @data.role2_property
     rescue
-      p "Error: role2_property is not available again"
+      p 'Error: role2_property is not available again'
     end
   end
 end
@@ -85,7 +88,7 @@ end
 class Interaction
   def initialize
     @data = DataObject.new
-    @data.basic_property = "test_basic"
+    @data.basic_property = 'test_basic'
   end
 
   def interact

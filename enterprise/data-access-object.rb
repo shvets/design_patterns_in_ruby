@@ -3,44 +3,33 @@
 # 1.
 
 class TransferObject
-  def data(key)
-  end
+  def data(key); end
 
-  def set_data(key, value)
-  end
+  def set_data(key, value); end
 end
 
 class TransferObjectDAO
-  def set_data_source(dataSource)
-  end
+  def set_data_source(dataSource); end
 
-  def create
-  end
+  def create; end
 
-  def update(transfer_object)
-  end
+  def update(transfer_object); end
 
-  def delete(transfer_object)
-  end
+  def delete(transfer_object); end
 
-  def find(id)
-  end
+  def find(id); end
 
-  def find_all
-  end
+  def find_all; end
 end
 
 class DataSource
-  def generate_next_id
-  end
+  def generate_next_id; end
 
-  def execute_command(command, param)
-  end
+  def execute_command(command, param); end
 end
 
 class TransferObjectDAOFactory
-  def transfer_object_dao
-  end
+  def transfer_object_dao; end
 end
 
 # 2.
@@ -71,27 +60,27 @@ class MyDataSource < DataSource
   end
 
   def generate_next_id
-    @generated_id = @generated_id + 1
+    @generated_id += 1
   end
 
   def execute_command(command, param=nil)
     result = nil
 
-    if(command == :insert)
+    if command == :insert
       result = (@objects << param)
-    elsif(command == :update)
+    elsif command == :update
       index = @objects.index(param)
       @objects.delete_at(index)
       @objects.insert(index, param)
 
       result = true
-    elsif(command == :delete)
-      result = (@objects.delete(param))  
-    elsif(command == :find)
+    elsif command == :delete
+      result = (@objects.delete(param))
+    elsif command == :find
       id = param
-      
+
       @objects.each do |transfer_object|
-        current_id = transfer_object.data("id")
+        current_id = transfer_object.data('id')
 
         if(current_id == id)
           result = transfer_object
@@ -99,7 +88,7 @@ class MyDataSource < DataSource
           break
         end
       end
-    elsif(command == :find_all)
+    elsif command == :find_all
       result = @objects
     end
 
@@ -109,16 +98,14 @@ end
 
 class MyTransferObjectDAO < TransferObjectDAO
 
-  def data_source=(data_source)
-    @data_source = data_source
-  end
+  attr_writer :data_source
 
   def create
     transfer_object = MyTransferObject.new
 
     id = @data_source.generate_next_id
 
-    transfer_object.set_data("id", id)
+    transfer_object.set_data('id', id)
 
     @data_source.execute_command(:insert, transfer_object)
 
@@ -128,7 +115,7 @@ class MyTransferObjectDAO < TransferObjectDAO
   def update(transfer_object)
     @data_source.execute_command(:update, transfer_object)
   end
-  
+
   def delete(transfer_object)
     @data_source.execute_command(:delete, transfer_object)
   end
@@ -150,9 +137,9 @@ class MyTransferObjectDAOFactory < TransferObjectDAOFactory
 
   def transfer_object_dao
     transfer_object_dao = MyTransferObjectDAO.new
-    
+
     transfer_object_dao.data_source = @data_source
-    
+
     transfer_object_dao
   end
 end
@@ -160,8 +147,8 @@ end
 
 # test - or business object, or client
 
-dataSource = MyDataSource.new
-factory = MyTransferObjectDAOFactory.new(dataSource)
+data_source = MyDataSource.new
+factory = MyTransferObjectDAOFactory.new(data_source)
 
 dao = factory.transfer_object_dao
 
@@ -171,22 +158,22 @@ new_id = dao.create
 # Find a domain object.
 o1 = dao.find(new_id)
 
-puts "o1: " + o1.to_s
+puts "o1: #{o1}"
 
 # modify the values in the Transfer Object.
-o1.set_data("address", "a1")
-o1.set_data("email", "em1")
+o1.set_data('address', 'a1')
+o1.set_data('email', 'em1')
 
 # update the domain object using the DAO
 dao.update(o1)
 
-puts "o1: " + o1.to_s
+puts "o1: #{o1}"
 
 list = dao.find_all
 
-puts "list before delete: " + list.join(', ')
+puts "list before delete: #{list.join(', ')}"
 
 # delete a domain object
 dao.delete(o1)
 
-puts "list after delete: " + list.join(', ')
+puts "list after delete: #{list.join(', ')}"

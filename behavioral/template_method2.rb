@@ -8,27 +8,26 @@ class Module
 
   # Invoked during class definitions
   def abstract_methods(*names)
-    names.each do | name |
-      define_method "#{name}" do
-        raise 'Called abstract method: ' + name.to_s
+    names.each do |name|
+      define_method name.to_s do
+        raise "Called abstract method: #{name}"
       end
     end
   end
-
 end
 
 # 1. template
 
-module AlgorithmTemplate   
+module AlgorithmTemplate
   # These methods are "primitive operations" and must be overridden in the concrete templates
   abstract_methods :step1, :step2, :step3
- 
+
   # The "template method" - calls the concrete class methods, is not overridden
   def some_template_method
     step1
     step2
     step3
-  end  
+  end
 end
 
 # 2. adding template behavior
@@ -36,36 +35,36 @@ end
 class MyAlgorithmTemplate1
   include AlgorithmTemplate
 
-  protected 
+  protected
 
   def step1
-    puts "algorithm1: step1"
+    puts 'algorithm1: step1'
   end
 
   def step2
-    puts "algorithm1: step2"
+    puts 'algorithm1: step2'
   end
 
   def step3
-    puts "algorithm1: step3"
+    puts 'algorithm1: step3'
   end
 end
 
 class MyAlgorithmTemplate2
   include AlgorithmTemplate
 
-  protected 
+  protected
 
   def step1
-    puts "algorithm2: step1"
+    puts 'algorithm2: step1'
   end
 
   def step2
-    puts "algorithm2: step2"
+    puts 'algorithm2: step2'
   end
 
   def step3
-    puts "algorithm2: step3"
+    puts 'algorithm2: step3'
   end
 end
 

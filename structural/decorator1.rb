@@ -14,7 +14,7 @@ end
 
 class ConcreteComponent < Component
   def operation
-    puts "my component"
+    puts 'my component'
   end
 end
 
@@ -22,11 +22,11 @@ end
 
 class TraditionalComponent < ConcreteComponent
   def pre_decoration
-    puts "my component pre decoration"
+    puts 'my component pre decoration'
   end
 
   def post_decoration
-    puts "my component post decoration"
+    puts 'my component post decoration'
   end
 
   def operation
@@ -46,11 +46,11 @@ class Decorator < Component
   end
 
   def pre_decoration
-    puts "my component pre decoration"
+    puts 'my component pre decoration'
   end
 
   def post_decoration
-    puts "my component post decoration"
+    puts 'my component post decoration'
   end
 
   def operation
@@ -79,11 +79,11 @@ class << component4
   alias old_operation operation
 
   def operation
-    puts "my component pre decoration"
+    puts 'my component pre decoration'
 
     old_operation
 
-    puts "my component post decoration"
+    puts 'my component post decoration'
   end
 end
 

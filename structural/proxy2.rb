@@ -13,27 +13,26 @@ end
 
 class MySubject < Subject
   def process
-    puts "my process"
+    puts 'my process'
   end
 end
 
 # 3. type proxy implementation
 
-class DynamicSubjectProxy 
-
+class DynamicSubjectProxy
   def initialize(subject)
     @subject = subject
   end
 
   def method_missing(name, *args)
     puts("Delegating '#{name}' message to subject.")
-  
+
     @subject.send(name, *args)
   end
 end
 
 
-# 4. test 
+# 4. test
 
 dynamic_proxy = DynamicSubjectProxy.new(MySubject.new)
 

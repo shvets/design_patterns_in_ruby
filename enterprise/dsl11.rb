@@ -5,91 +5,91 @@
 # the class level - meta-programming statements
 
 # This implementation uses object level.
-  
+
 # 1. Defines DSL elements: tree, trunk, branch, root, leaf.
-#    If one element appears inside another, use collection and don't forget to eval 
+#    If one element appears inside another, use collection and don't forget to eval
 #    incoming block for the parent.
 
 module HasName
   attr_reader :name
- 
+
   def initialize(name = '')
     @name = name
   end
-  
+
   def to_s
     "[name: #{name}]"
-  end  
+  end
 end
 
 class Leaf
   include HasName
-  
+
   def to_s
     "Leaf[name: #{name}]"
-  end  
+  end
 end
 
 class Branch
   include HasName
-    
+
   attr_reader :leaves
-  
+
   def initialize name
     super
-    
-    @leaves = [] 
+
+    @leaves = []
   end
 
   def leaf(name, &block)
-    leaf = Leaf.new(name)    
+    leaf = Leaf.new(name)
     leaf.instance_eval(&block) if block_given?
 
     @leaves << leaf
-    
-    leaf  
+
+    leaf
   end
-  
+
   def to_s
     "Branch[name: #{name}; leaves: #{leaves.join(', ')}]"
-  end  
+  end
 end
 
 class Root
   include HasName
-    
+
   def to_s
     "Root[name: #{name}]"
-  end    
+  end
 end
 
 class Trunk
   include HasName
-    
+
   attr_reader :branches, :roots
 
   def initialize
     super
-   
-    @branches = [] 
-    @roots = []   
+
+    @branches = []
+    @roots = []
   end
 
   def branch(name, &block)
-    branch = Branch.new(name)    
+    branch = Branch.new(name)
     branch.instance_eval(&block) if block_given?
-  
+
     @branches << branch
-    
+
     branch
   end
-  
+
   def root(name, &block)
-    root = Root.new(name)    
+    root = Root.new(name)
     root.instance_eval(&block) if block_given?
-  
+
     @roots << root
-    
+
     root
   end
 
@@ -105,7 +105,7 @@ class Tree
   include HasName
 
   def initialize name
-    super  
+    super
     @trunk = Trunk.new
   end
 
@@ -128,7 +128,7 @@ module Tree::DSL
   def tree(name, &block)
     tree = Tree.new(name)
     tree.instance_eval(&block)
-    
+
    tree
   end
 end
@@ -141,21 +141,20 @@ include Tree::DSL
 
 tree :my_favorite_tree do
   type :oak
-  
+
   trunk do
     branch :b1 do
       leaf :l1
       leaf :l2
     end
-    
+
     branch :b2 do
       leaf :l3
     end
-    
+
     root :r1
     root :r2
   end
-  
+
   puts self # prints the tree
 end
-

@@ -9,7 +9,7 @@ class MySingleton
     if @@instance == nil
       public_class_method :new # enables instance creation for this class
 
-      @@instance = new() unless @@instance
+      @@instance = new unless @@instance
 
       private_class_method :new # disable instance creation for this class
     end
@@ -23,5 +23,5 @@ end
 
 # MySingleton1.new # error
 
-puts "singleton: " + MySingleton.instance.to_s
-puts "singleton: " + MySingleton.instance.to_s
+puts "singleton: #{MySingleton.instance.to_s}"
+puts "singleton: #{MySingleton.instance.to_s}"

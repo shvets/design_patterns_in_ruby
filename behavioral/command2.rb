@@ -9,8 +9,8 @@ class CommandUser
     @command = command
   end
 
-  def operation()
-    @command.call if @command != nil
+  def operation
+    @command.call unless @command.nil?
   end
 end
 
@@ -18,7 +18,7 @@ end
 # 2. test
 
 command_user = CommandUser.new do
-  puts "command1"
+  puts 'command1'
 end
 
 command_user.operation

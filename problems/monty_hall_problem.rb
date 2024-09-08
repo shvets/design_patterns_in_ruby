@@ -8,7 +8,7 @@ won_staying  = 0
 won_changing = 0
 
 def percent(games)
-  percent = (games.to_f / NUMBER_OF_GAMES.to_f) * 100
+  percent = (games.to_f / NUMBER_OF_GAMES) * 100
   percent.round(3)
 end
 

@@ -5,52 +5,48 @@
 
 # 1. type builder interface
 
-class ProductBuilder 
-  def build_part1
-  end
+class ProductBuilder
+  def build_part1; end
 
-  def build_part2
-  end
+  def build_part2; end
 
-  def build_part3
-  end
-
+  def build_part3; end
 end
 
 # 2. type builder implementations
 
-class ComputerBuilder < ProductBuilder 
+class ComputerBuilder < ProductBuilder
   def build_part1
-    puts "Building part1: motherboard"
+    puts 'Building part1: motherboard'
   end
 
   def build_part2
-    puts "Building part2: CPU"
+    puts 'Building part2: CPU'
   end
 
   def build_part3
-    puts "Building part3: display"
+    puts 'Building part3: display'
   end
 end
 
-class TableBuilder < ProductBuilder 
+class TableBuilder < ProductBuilder
   def build_part1
-    puts "Building part1: legs"
+    puts 'Building part1: legs'
   end
 
   def build_part2
-    puts "Building part2: top"
+    puts 'Building part2: top'
   end
 
   def build_part3
-    puts "Building part3: mounting"
+    puts 'Building part3: mounting'
   end
 end
 
 # 3. director
 
-class Director 
-  def construct(builder) 
+class Director
+  def construct(builder)
     builder.build_part1
     builder.build_part2
     builder.build_part3

@@ -1,32 +1,31 @@
 # factory-method.rb
 
 # Defines an interface for creating an object, but let subclasses decide which
-# class to instantiate. Lets a class to defer instantiation to sublcasses.
+# class to instantiate. Lets a class to defer instantiation to subclasses.
 
 # 1. common type interface
 
-class Shape 
-  def draw
-  end
+class Shape
+  def draw; end
 end
 
 # 2. implementations of common type interface
 
-class Line < Shape 
+class Line < Shape
   def draw
-    puts "line"
+    puts 'line'
   end
 end
 
-class Square < Shape 
+class Square < Shape
   def draw
-    puts "square"
+    puts 'square'
   end
-end                             
+end
 
 # 3. Creator class for various types
 
-class ShapeCreator 
+class ShapeCreator
 
   # factory methods
 
@@ -40,10 +39,10 @@ class ShapeCreator
 
   # or universal factory method (parameterized factory method)
 
-  def create_shape(type) 
-    if(type == :line) 
+  def create_shape(type)
+    if type == :line
       Line.new
-    elsif(type== :square) 
+    elsif type == :square
       Square.new
     end
   end

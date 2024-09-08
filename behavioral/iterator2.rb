@@ -8,7 +8,7 @@ class ExternalIterator
     @index = 0
   end
 
-  def has_next?
+  def next?
     @index < @array.length
   end
 
@@ -27,10 +27,8 @@ end
 
 # 2. test
 
-array = ['e1', 'e2', 'e3', 'e4']
+array = %w[e1 e2 e3 e4]
 
 iterator = ExternalIterator.new(array)
 
-while iterator.has_next?
-  puts iterator.next.to_s
-end
+puts iterator.next while iterator.next?

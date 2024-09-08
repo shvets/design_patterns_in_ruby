@@ -7,12 +7,12 @@ require 'observer'
 # 1. observer
 
 class Observer
-  def initialize(name) 
+  def initialize(name)
     @name = name
   end
 
   def update(value)
-    puts "updated " + @name + ". New value: " + value
+    puts "updated #{@name}. New value: #{value}"
   end
 end
 
@@ -23,9 +23,9 @@ end
 class MyObservable
   include Observable
 
-  def my_property= my_property
+  def my_property=(my_property)
     @my_property = my_property
-  
+
     changed # specific to ruby Observable library
     notify_observers(my_property)
   end
@@ -33,9 +33,9 @@ end
 
 # 4. test
 
-observer1 = Observer.new("n1")
-observer2 = Observer.new("n2")
-observer3 = Observer.new("n3")
+observer1 = Observer.new('n1')
+observer2 = Observer.new('n2')
+observer3 = Observer.new('n3')
 
 observer4 = Proc.new {}
 

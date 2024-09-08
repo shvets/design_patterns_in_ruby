@@ -13,7 +13,7 @@ end
 
 class ConcreteComponent < Component
   def operation
-    puts "my component"
+    puts 'my component'
   end
 end
 
@@ -26,11 +26,11 @@ class << component
   alias old_operation operation
 
   def operation
-    puts "my component pre decoration"
+    puts 'my component pre decoration'
 
     old_operation
 
-    puts "my component post decoration"
+    puts 'my component post decoration'
   end
 end
 

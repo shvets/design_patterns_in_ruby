@@ -2,7 +2,7 @@
 
 class SomeDatabase
 
-  def save model
+  def save(model)
     puts "Model #{model} saved."
   end
 
@@ -12,11 +12,11 @@ end
 
 class WebUI
   def good_request
-    "some_name"
+    'some_name'
   end
 
   def bad_request
-    ""
+    ''
   end
 end
 
@@ -33,11 +33,11 @@ class SomeModel
   end
 
   def valid?
-    not name.nil? and name.strip.size > 0
+    not name.nil? and !name.strip.empty?
   end
 
   def to_s
-    name.nil? ? "unknown" : name
+    name.nil? ? 'unknown' : name
   end
 end
 
@@ -61,7 +61,7 @@ end
 class SomeUseCaseService
   attr_reader :repository, :controller
 
-  def initialize repository, controller
+  def initialize(repository, controller)
     @repository = repository
     @controller = controller
   end
@@ -86,7 +86,7 @@ end
 
 class SomeController
 
-  def create_some_model params
+  def create_some_model(params)
     # 1. Create repository
     repository = SomeModelRepository.new
 
@@ -98,12 +98,12 @@ class SomeController
   end
 
   # successful path
-  def model_creation_succeeded model
+  def model_creation_succeeded(model)
     puts "Model #{model} was created successfully."
   end
 
   # failure path
-  def model_creation_failed model
+  def model_creation_failed(model)
     puts "Model #{model} creation failed."
   end
 

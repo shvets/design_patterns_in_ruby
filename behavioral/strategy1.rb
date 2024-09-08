@@ -1,25 +1,25 @@
 # strategy1.rb
 
 # Defines a family of algorithms, encapsulate each one and make them interchangeable. 
-# Let the algorithm vart independently from clients that use it.
+# Let the algorithm vary independently from clients that use it.
 
 # 1. strategy implementations
 
 class MyStrategy1
   def operation
-    puts "operation1"
+    puts 'operation1'
   end
 end
 
 class MyStrategy2
   def operation
-    puts "operation2"
+    puts 'operation2'
   end
 end
 
 # 2. strategy context
 
-class StrategyContext 
+class StrategyContext
   attr_writer :strategy
 
   def execute

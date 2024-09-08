@@ -63,15 +63,15 @@ class MyClass
     mac_config = config do
       name :mac_config
 
-      os "OSX 10.8.5"
-      memory "8GB"
+      os 'OSX 10.8.5'
+      memory '8GB'
       display_size "27'"
-      hard_drive "1TB"
+      hard_drive '1TB'
 
       programs do
-        program "Finder"
-        program "Firefox"
-        program "VLC"
+        program 'Finder'
+        program 'Firefox'
+        program 'VLC'
       end
     end
 

@@ -1,31 +1,31 @@
 # facade.rb
 
 # Provides an unified interface to a set of interfaces in a subsystem.
-# Defines a high-level interface that makes the sybsystem easier to use.
+# Defines a high-level interface that makes the subsystem easier to use.
 
 # 1. different parts of the system
 
-class Component1 
+class Component1
   def operation1
-    puts "operation1"
+    puts 'operation1'
   end
 end
 
-class Component2 
+class Component2
   def operation2
-    puts "operation2"
+    puts 'operation2'
   end
 end
 
-class Component3 
+class Component3
   def operation3
-    puts "operation3"
+    puts 'operation3'
   end
 end
 
 # 2. facade to different parts; end user will communicate with them through the facade only.
 
-class MyFacade 
+class MyFacade
   def do_something
     component1 = Component1.new
     component2 = Component2.new
